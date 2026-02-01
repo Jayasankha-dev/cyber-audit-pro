@@ -1,0 +1,41 @@
+{
+  "name": "CYBER-AUDIT-PRO",
+  "version": "1.0.0",
+  "description": "Professional Security Audit and Automation Browser",
+  "author": "benjaminus",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^26.4.0"
+  },
+  "dependencies": {
+    "@cliqz/adblocker-electron": "^1.34.0",
+    "cross-fetch": "^4.1.0",
+    "node-fetch": "^2.6.7",
+    "python-shell": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.benjaminus.securitybrowser",
+    "productName": "CYBERAUDITPRO",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "icon256.png",
+      "target": "portable"
+    },
+    "portable": {
+      "artifactName": "CYBERAUDITPRO_Portable.exe"
+    },
+    "extraResources": [
+      "bridge.py",
+      "scanner.py",
+      "auto_tester.py",
+      "modules/**"
+    ]
+  }
+}

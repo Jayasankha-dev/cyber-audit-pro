@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER-AUDIT PRO | Security Intelligence Engine</title>
+    <style>
+        :root {
+            --bg-main: #0a0a0c;
+            --bg-panel: #111114;
+            --accent-primary: #00ff88;
+            --accent-secondary: #00d4ff;
+            --danger: #ff3e3e;
+            --text-dim: #88888b;
+            --border: #222225;
+            --font-mono: 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            background: var(--bg-main);
+            color: #ffffff;
+            font-family: var(--font-mono);
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            grid-template-rows: 60px 1fr;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            grid-column: 1 / span 2;
+            background: var(--bg-panel);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .nav-group {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: #1a1a1d;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--border);
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-primary);
+            margin-left: 5px;
+        }
+
+        /* URL BAR AREA */
+        .url-box-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding-left: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .url-box-container:focus-within {
+            border-color: var(--accent-primary);
+        }
+
+        .url-icon {
+            font-size: 10px;
+            color: var(--accent-primary);
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+        #url-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 5px;
+            color: var(--accent-primary);
+            outline: none;
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+
+        .btn-execute {
+            background: #1a1a1d;
+            border: 1px solid var(--border);
+            color: var(--accent-primary);
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 11px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .btn-execute:hover {
+            background: var(--accent-primary);
+            color: #000;
+        }
+
+        /* BROWSER AREA */
+        #browser-container {
+            position: relative;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        webview { flex: 1; width: 100%; height: 100%; }
+
+        /* TERMINAL SIDEBAR */
+        #terminal-container {
+            background: #000;
+            display: grid;
+            grid-template-rows: auto 1fr auto; 
+            border-left: 2px solid var(--border);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #terminal-header {
+            background: var(--bg-panel);
+            padding: 10px;
+            font-size: 11px;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #terminal-output {
+            padding: 15px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-size: 12px;
+            line-height: 1.5;
+            display: block;
+        }
+
+        .log { 
+            border-left: 3px solid #333; 
+            padding-left: 10px; 
+            margin-bottom: 6px; 
+            word-break: break-all;
+            white-space: pre-wrap; 
+        }
+        .log.system { border-color: var(--accent-secondary); color: var(--accent-secondary); }
+        .log.threat { border-color: var(--danger); color: var(--danger); font-weight: bold; }
+        .log.info { border-color: var(--text-dim); color: #ccc; }
+        .log.success { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        #terminal-input-wrapper {
+            background: #050505;
+            padding: 10px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            height: 50px;
+            align-items: center;
+        }
+
+        #cmd-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            outline: none;
+            font-family: var(--font-mono);
+        }
+
+        /* SCROLLBAR */
+        #terminal-output::-webkit-scrollbar { width: 8px; }
+        #terminal-output::-webkit-scrollbar-track { background: #050505; }
+        #terminal-output::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-group">
+            <button class="nav-btn" id="btn-back" title="Go Back">◀</button>
+            <button class="nav-btn" id="btn-forward" title="Go Forward">▶</button>
+            <button class="nav-btn" id="btn-reload" title="Refresh Page">↻</button>
+            <button class="nav-btn" id="btn-home" title="Go Home">🏠</button>
+        </div>
+
+        <div class="status-dot"></div>
+        <div style="font-size: 12px; font-weight: bold; color: var(--text-dim); margin-right: 5px;">AUDIT_v3.0</div>
+        
+        <div class="url-box-container">
+            <span class="url-icon">HTTPS://</span>
+            <input type="text" id="url-input" placeholder="Scan Target URL..." autocomplete="off">
+        </div>
+
+        <button class="btn-execute" id="btn-navigate">EXECUTE_SCAN</button>
+    </header>
+
+   <main id="browser-container">
+        <webview id="target-view" src="about:blank" allowpopups webpreferences="contextIsolation=yes" allowfullscreen></webview>
+    </main>
+
+    <aside id="terminal-container">
+        <div id="terminal-header">
+            <span>LIVE INTELLIGENCE STREAM</span>
+            <span id="threat-count">THREATS: 0</span>
+        </div>
+        <div id="terminal-output">
+            <div class="log system">CORE SYSTEM INITIALIZED... READY.</div>
+        </div>
+        <div id="terminal-input-wrapper">
+            <span style="color: var(--accent-primary); font-weight: bold;">&gt;</span>
+            <input type="text" id="cmd-input" placeholder="Type command..." autocomplete="off">
+        </div>
+    </aside>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

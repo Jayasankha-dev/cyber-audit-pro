@@ -1,0 +1,3 @@
+py: import subprocess; subprocess.run(["python", "login_test.py"])
+py: import subprocess; subprocess.run(["python", "scanner.py"])
+py: import subprocess; subprocess.run(["python", "auto_tester.py"])

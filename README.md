@@ -1,8 +1,5 @@
 # cyber-audit-pro
 Professional Security Audit &amp; Traffic Interception Browser
-inject:Ex:bots(js)
-py:ping
-js:alert('System Online')
 
 ---
 

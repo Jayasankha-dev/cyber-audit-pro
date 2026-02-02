@@ -55,7 +55,7 @@ The integrated terminal allows you to interact with the Python core and the brow
 | Command Category | Input Example | Result / Description |
 | --- | --- | --- |
 | **Engine Status** | `py: ping` | Returns "PONG" if the Python Bridge is active. |
-| **Payload Injection** | `inject:god` | Deploys the high-level 'God-King' module to the site. |
+| **Payload Injection** | `inject:god` | Deploys the high-level 'ZapperTool' module to the site. |
 | **JS Execution** | `js: document.title` | Executes raw JavaScript in the webview context. |
 | **Automation** | `py: import auto_tester; ...` | Triggers the automated Playwright login tester. |
 | **Threat Intelligence** | (Automatic) | Displays `!!! ALERT !!!` when leaks or SQLi are found. |

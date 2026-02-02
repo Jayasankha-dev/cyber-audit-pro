@@ -7,6 +7,8 @@ js:alert('System Online')
 ---
 
 # 🛡️ CYBER-AUDIT PRO v3.0
+*Download Latest Version*
+https://github.com/Jayasankha-dev/cyber-audit-pro/releases/tag/v3.0
 
 **Professional Grade Traffic Interceptor & Security Intelligence Engine**
 
